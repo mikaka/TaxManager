@@ -1,4 +1,4 @@
-package fr.pernisi.risf.taxManager.taxmanager.unit.receipt;
+package fr.pernisi.risf.taxmanager.taxmanager.receipt;
 
 
 import fr.pernisi.risf.taxmanager.receipt.model.Receipt;
