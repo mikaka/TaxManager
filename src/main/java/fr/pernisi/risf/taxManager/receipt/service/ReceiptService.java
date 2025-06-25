@@ -1,11 +1,9 @@
-package fr.pernisi.risf.taxManager.taxManager.receipt.service;
+package fr.pernisi.risf.taxmanager.receipt.service;
 
 
 
-import fr.pernisi.risf.taxManager.taxManager.receipt.model.Receipt;
-import fr.pernisi.risf.taxManager.taxManager.receipt.model.ReceiptLine;
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import fr.pernisi.risf.taxmanager.receipt.model.Receipt;
+import fr.pernisi.risf.taxmanager.receipt.model.ReceiptLine;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

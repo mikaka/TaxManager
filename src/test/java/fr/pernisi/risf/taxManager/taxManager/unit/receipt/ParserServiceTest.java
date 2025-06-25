@@ -1,9 +1,9 @@
-package fr.pernisi.risf.taxManager.taxManager.unit.receipt;
+package fr.pernisi.risf.taxManager.taxmanager.unit.receipt;
 
 
 
-import fr.pernisi.risf.taxManager.taxManager.receipt.model.ReceiptLine;
-import fr.pernisi.risf.taxManager.taxManager.receipt.service.ParserService;
+import fr.pernisi.risf.taxmanager.receipt.model.ReceiptLine;
+import fr.pernisi.risf.taxmanager.receipt.service.ParserService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

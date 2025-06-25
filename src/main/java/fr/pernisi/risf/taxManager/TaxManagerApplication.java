@@ -1,4 +1,4 @@
-package fr.pernisi.risf.taxManager.taxManager;
+package fr.pernisi.risf.taxmanager;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -1,10 +1,10 @@
-package fr.pernisi.risf.taxManager.taxManager.receipt.controller;
+package fr.pernisi.risf.taxmanager.receipt.controller;
 
 
-import fr.pernisi.risf.taxManager.taxManager.receipt.model.Receipt;
-import fr.pernisi.risf.taxManager.taxManager.receipt.model.ReceiptLine;
-import fr.pernisi.risf.taxManager.taxManager.receipt.service.ParserService;
-import fr.pernisi.risf.taxManager.taxManager.receipt.service.ReceiptService;
+import fr.pernisi.risf.taxmanager.receipt.model.Receipt;
+import fr.pernisi.risf.taxmanager.receipt.model.ReceiptLine;
+import fr.pernisi.risf.taxmanager.receipt.service.ReceiptService;
+import fr.pernisi.risf.taxmanager.receipt.service.ParserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

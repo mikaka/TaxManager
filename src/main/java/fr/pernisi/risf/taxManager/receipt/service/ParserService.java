@@ -1,8 +1,8 @@
-package fr.pernisi.risf.taxManager.taxManager.receipt.service;
+package fr.pernisi.risf.taxmanager.receipt.service;
 
 
-import fr.pernisi.risf.taxManager.taxManager.receipt.model.Receipt;
-import fr.pernisi.risf.taxManager.taxManager.receipt.model.ReceiptLine;
+import fr.pernisi.risf.taxmanager.receipt.model.Receipt;
+import fr.pernisi.risf.taxmanager.receipt.model.ReceiptLine;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -16,11 +16,6 @@ import java.util.regex.Pattern;
 @Service
 public class ParserService {
 
-
-    public void validateReceipt(Receipt receipt) {
-
-
-    }
 
     public List<ReceiptLine> parseInput(String input) {
 

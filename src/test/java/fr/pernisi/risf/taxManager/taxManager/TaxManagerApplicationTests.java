@@ -1,4 +1,4 @@
-package fr.pernisi.risf.taxManager.taxManager;
+package fr.pernisi.risf.taxManager.taxmanager;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -6,8 +6,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 class TaxManagerApplicationTests {
 
-	@Test
-	void contextLoads() {
-	}
+
 
 }

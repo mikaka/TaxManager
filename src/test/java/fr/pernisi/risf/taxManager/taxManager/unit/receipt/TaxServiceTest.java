@@ -1,14 +1,11 @@
-package fr.pernisi.risf.taxManager.taxManager.unit.receipt;
+package fr.pernisi.risf.taxManager.taxmanager.unit.receipt;
 
-import fr.pernisi.risf.taxManager.taxManager.receipt.service.TaxService;
+import fr.pernisi.risf.taxmanager.receipt.service.TaxService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -34,7 +31,6 @@ class TaxServiceTest {
     @Test
     @DisplayName("Should return correct tax for non-exempt product")
     void shouldReturnCorrectTaxForNonExemptProduct() {
-        NumberFormat nf = new DecimalFormat("0.00");
         double tax = taxService.getTax("music CD", 14.99);
         assertEquals(1.50, tax, 0.001);
 

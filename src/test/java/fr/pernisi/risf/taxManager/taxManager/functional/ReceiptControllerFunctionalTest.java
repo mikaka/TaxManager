@@ -1,4 +1,4 @@
-package fr.pernisi.risf.taxManager.taxManager.functional;
+package fr.pernisi.risf.taxManager.taxmanager.functional;
 
 
 

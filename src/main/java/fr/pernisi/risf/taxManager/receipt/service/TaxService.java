@@ -1,4 +1,4 @@
-package fr.pernisi.risf.taxManager.taxManager.receipt.service;
+package fr.pernisi.risf.taxmanager.receipt.service;
 
 import org.springframework.stereotype.Service;
 

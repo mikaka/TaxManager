@@ -1,4 +1,4 @@
-package fr.pernisi.risf.taxManager.taxManager.receipt.model;
+package fr.pernisi.risf.taxmanager.receipt.model;
 
 import lombok.Data;
 
