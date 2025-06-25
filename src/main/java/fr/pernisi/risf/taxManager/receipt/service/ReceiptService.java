@@ -26,7 +26,7 @@ public class ReceiptService {
         List<ReceiptLine> lines = new ArrayList<>();
         if (inputs != null && !inputs.isEmpty()) {
             for( ReceiptLine input : inputs) {
-                Double taxPrice = taxService.getTax(input.getTitle(), input.getPrice());
+                Double taxPrice = customRound(taxService.getTax(input.getTitle(), input.getPrice()));
                 Double price = (input.getPrice()+taxPrice) * input.getQuantity();
                 totalPrice += price;
                 totalTax += taxPrice * input.getQuantity();
@@ -34,18 +34,21 @@ public class ReceiptService {
                 var calculedLine = new ReceiptLine();
                 calculedLine.setTitle(input.getTitle());
                 calculedLine.setQuantity(input.getQuantity());
-                calculedLine.setPrice(input.getPrice() + taxPrice * input.getQuantity());
+                calculedLine.setPrice((input.getPrice() + taxPrice) * input.getQuantity()); // Round to 2 decimal places
                 lines.add(calculedLine);
             }
 
         }
         receipt.setLines(lines);
-        receipt.setTotalTax(totalTax);
+        receipt.setTotalTax(totalTax); // Round to 2 decimal places
         receipt.setTotalPrice(totalPrice);
 
         return receipt;
     }
 
+    private double customRound(Double value) {
+        return Math.ceil( value * 20.0) / 20.0;
+    }
 
 
     public void validateReceiptLines(List<ReceiptLine> receiptLineList) {

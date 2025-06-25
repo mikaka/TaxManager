@@ -43,5 +43,8 @@ class TaxServiceTest {
     void shouldReturnCorrectTaxForImportedProduct() {
         double tax = taxService.getTax("imported bottle of perfume", 40.00);
         assertEquals(6.00, tax, 0.001);
+
+        tax = taxService.getTax("imported box of chocolates", 11.25);
+        assertEquals(0.5625, tax, 0.001);
     }
 }
