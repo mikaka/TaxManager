@@ -3,7 +3,7 @@ package fr.pernisi.risf.taxmanager.receipt.controller;
 
 import fr.pernisi.risf.taxmanager.receipt.dto.ReceiptLineDto;
 import fr.pernisi.risf.taxmanager.receipt.model.Receipt;
-import fr.pernisi.risf.taxmanager.receipt.service.ParserService;
+import fr.pernisi.risf.taxmanager.receipt.service.TextsService;
 import fr.pernisi.risf.taxmanager.receipt.service.ReceiptService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -19,16 +19,16 @@ import java.util.List;
 @Log4j2
 public class ReceiptController {
 
-    private final ParserService parserService;
+    private final TextsService textsService;
     private final ReceiptService receiptService;
 
     @PostMapping
     public String createReceipt(@RequestBody String input) {
         log.info("create a unit for "+input);
-        List<ReceiptLineDto> receiptLineList = parserService.parseInput(input);
+        List<ReceiptLineDto> receiptLineList = textsService.parseInput(input);
         Receipt receipt = receiptService.createReceipt(receiptLineList);
 
-        return parserService.formatReceipt(receipt);
+        return textsService.formatReceipt(receipt);
     }
 
 
