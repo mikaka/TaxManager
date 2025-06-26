@@ -52,22 +52,17 @@ class ReceiptServiceTest {
 
     @DisplayName("Should parse a unit empty")
     @Test
-    void itSouldCreateNoLineReceipt() {
-
-        Receipt receipt = receiptService.createReceipt(Collections.emptyList());
-        assertEquals(0, receipt.getLines().size());
-        assertEquals(0.0, receipt.getTotalPrice());
-        assertEquals(0.0, receipt.getTotalTax());
-
+    void itSouldThowIfNoLineReceipt() {
+       assertThrows(IllegalArgumentException.class, ()-> receiptService.createReceipt(Collections.emptyList()));
     }
 
     @DisplayName("Should parse a unit full with no imported products")
     @Test
     void itSouldCreate3LineReceipt() {
 
-        when(taxService.getTax("book", 12.49)).thenReturn(0.00);
-        when(taxService.getTax("music CD", 14.99)).thenReturn(1.50);
-        when(taxService.getTax("chocolate bar", 0.85)).thenReturn(0.00);
+        when(taxService.getTax("book")).thenReturn(0.00);
+        when(taxService.getTax("music CD")).thenReturn(0.10);
+        when(taxService.getTax("chocolate bar")).thenReturn(0.00);
 
         Receipt receipt = receiptService.createReceipt(receiptLineList);
         NumberFormat nf = new DecimalFormat("0.00");
@@ -99,8 +94,8 @@ class ReceiptServiceTest {
         importedReceiptLineList.add(new ReceiptLineDto("imported bottle of perfume", 47.50, 1));
 
 
-        when(taxService.getTax("imported box of chocolates", 10.00)).thenReturn(0.50);
-        when(taxService.getTax("imported bottle of perfume", 47.50)).thenReturn(7.15);
+        when(taxService.getTax("imported box of chocolates")).thenReturn(0.05);
+        when(taxService.getTax("imported bottle of perfume")).thenReturn(0.15);
 
 
         Receipt receipt = receiptService.createReceipt(importedReceiptLineList);
@@ -132,10 +127,10 @@ class ReceiptServiceTest {
         roundReceiptLineList.add(new ReceiptLineDto("imported box of chocolates", 11.25, 1));
 
 
-        when(taxService.getTax("imported bottle of perfume", 27.99)).thenReturn(4.1985);
-        when(taxService.getTax("bottle of perfume", 18.99)).thenReturn(1.899);
-        when(taxService.getTax("packet of headache pills", 9.75)).thenReturn(0.0);
-        when(taxService.getTax("imported box of chocolates", 11.25)).thenReturn(0.5625);
+        when(taxService.getTax("imported bottle of perfume")).thenReturn(0.15);
+        when(taxService.getTax("bottle of perfume")).thenReturn(0.10);
+        when(taxService.getTax("packet of headache pills")).thenReturn(0.0);
+        when(taxService.getTax("imported box of chocolates")).thenReturn(0.05);
 
         Receipt receipt = receiptService.createReceipt(roundReceiptLineList);
         NumberFormat nf = new DecimalFormat("0.00");

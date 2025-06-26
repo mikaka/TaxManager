@@ -7,13 +7,13 @@ import fr.pernisi.risf.taxmanager.receipt.model.Receipt;
 import fr.pernisi.risf.taxmanager.receipt.model.ReceiptLine;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Service
+@Component
 @RequiredArgsConstructor
 @Log4j2
 public class ReceiptService {
@@ -27,6 +27,10 @@ public class ReceiptService {
      */
     public Receipt createReceipt(List<ReceiptLineDto> inputs) {
         log.info("Creation of the Receipt object");
+        if (inputs == null || inputs.isEmpty()) {
+            throw new IllegalArgumentException("No line in input");
+        }
+
         var receipt = new Receipt();
         double totalPrice = 0.0;
         double totalTax = 0.0;
@@ -35,13 +39,13 @@ public class ReceiptService {
         if (inputs != null && !inputs.isEmpty()) {
             for( ReceiptLineDto lineDto : inputs) {
                 validateReceiptLine(lineDto);
-                double taxPrice = calculateTaxePriceLine(lineDto);
-                double price = calculatePriceLine(lineDto, taxPrice);
+                double taxPriceUnit = calculateTaxePriceLine(lineDto);
+                double priceUnit =  lineDto.price() + taxPriceUnit;
 
-                totalPrice += price;
-                totalTax += taxPrice * lineDto.quantity();
+                totalPrice += priceUnit  * lineDto.quantity();
+                totalTax += taxPriceUnit * lineDto.quantity();
 
-                lines.add(buildLineReceipt(lineDto,price, taxPrice));
+                lines.add(buildLineReceipt(lineDto,priceUnit* lineDto.quantity()));
             }
 
         }
@@ -52,15 +56,15 @@ public class ReceiptService {
         return receipt;
     }
 
-    private double calculatePriceLine(ReceiptLineDto lineProduct, double taxPrice) {
-        return (lineProduct.price() + taxPrice) * lineProduct.quantity();
+    private Receipt createEmptyReceipt() {
+        return new Receipt();
     }
 
     private double calculateTaxePriceLine(ReceiptLineDto lineProduct) {
-        return customRound(taxService.getTax(lineProduct.title(), lineProduct.price()));
+        return customRound(taxService.getTax(lineProduct.title()) * lineProduct.price());
     }
 
-    private ReceiptLine buildLineReceipt(ReceiptLineDto line, double price, double taxPrice) {
+    private ReceiptLine buildLineReceipt(ReceiptLineDto line, double price) {
         var calculedLine = new ReceiptLine();
         calculedLine.setTitle(line.title());
         calculedLine.setQuantity(line.quantity());

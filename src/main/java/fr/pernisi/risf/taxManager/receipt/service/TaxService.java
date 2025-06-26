@@ -1,18 +1,18 @@
 package fr.pernisi.risf.taxmanager.receipt.service;
 
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 /**
  * easy approach: with some key words,
  * we try to reconize the type of product and we calculate the associate rate
  */
-@Service
-public class  TaxService {
-    public Double getTax(String title, double price) {
+@Component
+public class TaxService {
+    public Double getTax(String title) {
 
-        if ( !StringUtils.hasLength(title) || price < 0) {
-            throw new IllegalArgumentException("Invalid title or price");
+        if ( !StringUtils.hasLength(title)) {
+            throw new IllegalArgumentException("Invalid title");
         }
         double taxRate = 0.0;
         // Simulate tax retrieval logic, e.g., from a database or configuration
@@ -22,7 +22,7 @@ public class  TaxService {
         if(isImported(title)) {
             taxRate += 0.05; // Additional 5% tax for imported items
         }
-        return taxRate * price;
+        return taxRate;
     }
 
     private boolean isImported(String title) {
