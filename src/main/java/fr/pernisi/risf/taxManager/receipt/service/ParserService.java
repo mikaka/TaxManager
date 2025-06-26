@@ -1,6 +1,7 @@
 package fr.pernisi.risf.taxmanager.receipt.service;
 
 
+import fr.pernisi.risf.taxmanager.receipt.dto.ReceiptLineDto;
 import fr.pernisi.risf.taxmanager.receipt.model.Receipt;
 import fr.pernisi.risf.taxmanager.receipt.model.ReceiptLine;
 import lombok.extern.log4j.Log4j2;
@@ -19,9 +20,9 @@ import java.util.regex.Pattern;
 public class ParserService {
 
 
-    public List<ReceiptLine> parseInput(String input) {
-
-        List<ReceiptLine> lines = new ArrayList<>();
+    public List<ReceiptLineDto> parseInput(String input) {
+        log.debug("parse input :"+input);
+        List<ReceiptLineDto> lines = new ArrayList<>();
         if(StringUtils.hasLength(input)){
             Pattern pattern = Pattern.compile("^.*$", Pattern.MULTILINE);
             Matcher matcher = pattern.matcher(input);
@@ -30,10 +31,11 @@ public class ParserService {
                 parseLine(matcher.group(), lines);
             }
         }
+        log.debug("Number of generated lines :"+lines.size());
         return lines;
     }
 
-    private void parseLine(String input, List<ReceiptLine> lines) {
+    private void parseLine(String input, List<ReceiptLineDto> lines) {
         String regex = "(\\d+)\\s+(.+?)\\s+at\\s+(\\d+\\.\\d{2})";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(input);
@@ -42,7 +44,7 @@ public class ParserService {
             int quantity = Integer.parseInt(matcher.group(1));
             String name = matcher.group(2);
             double price = Double.parseDouble(matcher.group(3));
-            lines.add(new ReceiptLine(name, price, quantity));
+            lines.add(new ReceiptLineDto(name, price, quantity));
         } else {
             throw new IllegalArgumentException("Format invalide : " + input);
         }

@@ -1,8 +1,8 @@
 package fr.pernisi.risf.taxmanager.receipt.controller;
 
 
+import fr.pernisi.risf.taxmanager.receipt.dto.ReceiptLineDto;
 import fr.pernisi.risf.taxmanager.receipt.model.Receipt;
-import fr.pernisi.risf.taxmanager.receipt.model.ReceiptLine;
 import fr.pernisi.risf.taxmanager.receipt.service.ParserService;
 import fr.pernisi.risf.taxmanager.receipt.service.ReceiptService;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +25,7 @@ public class ReceiptController {
     @PostMapping
     public String createReceipt(@RequestBody String input) {
         log.info("create a unit for "+input);
-        List<ReceiptLine> receiptLineList = parserService.parseInput(input);
+        List<ReceiptLineDto> receiptLineList = parserService.parseInput(input);
         Receipt receipt = receiptService.createReceipt(receiptLineList);
 
         return parserService.formatReceipt(receipt);

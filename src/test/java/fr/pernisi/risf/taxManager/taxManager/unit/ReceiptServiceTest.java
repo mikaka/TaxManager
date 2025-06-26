@@ -1,8 +1,8 @@
 package fr.pernisi.risf.taxmanager.taxmanager.unit;
 
 
+import fr.pernisi.risf.taxmanager.receipt.dto.ReceiptLineDto;
 import fr.pernisi.risf.taxmanager.receipt.model.Receipt;
-import fr.pernisi.risf.taxmanager.receipt.model.ReceiptLine;
 import fr.pernisi.risf.taxmanager.receipt.service.ReceiptService;
 import fr.pernisi.risf.taxmanager.receipt.service.TaxService;
 import org.junit.jupiter.api.BeforeEach;
@@ -33,7 +33,7 @@ class ReceiptServiceTest {
     @InjectMocks
     private ReceiptService receiptService;
 
-    List<ReceiptLine> receiptLineList;
+    List<ReceiptLineDto> receiptLineList;
 
 
     @BeforeEach
@@ -41,9 +41,9 @@ class ReceiptServiceTest {
 
         receiptLineList = new ArrayList<>();
 
-        receiptLineList.add(new ReceiptLine("book", 12.49, 1));
-        receiptLineList.add(new ReceiptLine("music CD", 14.99, 1));
-        receiptLineList.add(new ReceiptLine("chocolate bar", 0.85, 1));
+        receiptLineList.add(new ReceiptLineDto("book", 12.49, 1));
+        receiptLineList.add(new ReceiptLineDto("music CD", 14.99, 1));
+        receiptLineList.add(new ReceiptLineDto("chocolate bar", 0.85, 1));
 
 
 
@@ -94,9 +94,9 @@ class ReceiptServiceTest {
     @Test
     void itSouldCreateimportedLineReceipt() {
 
-        List<ReceiptLine> importedReceiptLineList = new ArrayList<>();
-        importedReceiptLineList.add(new ReceiptLine("imported box of chocolates", 10.00, 1));
-        importedReceiptLineList.add(new ReceiptLine("imported bottle of perfume", 47.50, 1));
+        List<ReceiptLineDto> importedReceiptLineList = new ArrayList<>();
+        importedReceiptLineList.add(new ReceiptLineDto("imported box of chocolates", 10.00, 1));
+        importedReceiptLineList.add(new ReceiptLineDto("imported bottle of perfume", 47.50, 1));
 
 
         when(taxService.getTax("imported box of chocolates", 10.00)).thenReturn(0.50);
@@ -125,11 +125,11 @@ class ReceiptServiceTest {
     @DisplayName("Should round the total price and tax to the nearest 0.05")
     @Test
     void itSouldCreateRoundResult() {
-        List<ReceiptLine> roundReceiptLineList = new ArrayList<>();
-        roundReceiptLineList.add(new ReceiptLine("imported bottle of perfume", 27.99, 1));
-        roundReceiptLineList.add(new ReceiptLine("bottle of perfume", 18.99, 1));
-        roundReceiptLineList.add(new ReceiptLine("packet of headache pills", 9.75, 1));
-        roundReceiptLineList.add(new ReceiptLine("imported box of chocolates", 11.25, 1));
+        List<ReceiptLineDto> roundReceiptLineList = new ArrayList<>();
+        roundReceiptLineList.add(new ReceiptLineDto("imported bottle of perfume", 27.99, 1));
+        roundReceiptLineList.add(new ReceiptLineDto("bottle of perfume", 18.99, 1));
+        roundReceiptLineList.add(new ReceiptLineDto("packet of headache pills", 9.75, 1));
+        roundReceiptLineList.add(new ReceiptLineDto("imported box of chocolates", 11.25, 1));
 
 
         when(taxService.getTax("imported bottle of perfume", 27.99)).thenReturn(4.1985);
@@ -167,12 +167,12 @@ class ReceiptServiceTest {
     @DisplayName("Should throw if bad information")
     @Test
     void itSouldThrowIfBadEinformation() {
-        List<ReceiptLine> importedReceiptLineList = new ArrayList<>();
-        importedReceiptLineList.add(new ReceiptLine("imported box of chocolates", 10.00, -3));
+        List<ReceiptLineDto> importedReceiptLineList = new ArrayList<>();
+        importedReceiptLineList.add(new ReceiptLineDto("imported box of chocolates", 10.00, -3));
         assertThrows(IllegalArgumentException.class, () ->  receiptService.createReceipt(importedReceiptLineList));
 
         assertThrows(IllegalArgumentException.class, () ->  receiptService.createReceipt(
-                List.of(new ReceiptLine("imported box of chocolates", -10.00, 1))));
+                List.of(new ReceiptLineDto("imported box of chocolates", -10.00, 1))));
     }
 
 }
