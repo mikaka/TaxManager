@@ -1,7 +1,6 @@
 package fr.pernisi.risf.taxmanager.receipt.service;
 
 
-
 import fr.pernisi.risf.taxmanager.receipt.dto.ReceiptLineDto;
 import fr.pernisi.risf.taxmanager.receipt.model.Receipt;
 import fr.pernisi.risf.taxmanager.receipt.model.ReceiptLine;
@@ -22,7 +21,8 @@ public class ReceiptService {
 
     /**
      * Create a receipt object ( could be transformed into an entity, in the next evolution)
-     * @param inputs
+     *
+     * @param inputs datas from parser
      * @return Receipt object
      */
     public Receipt createReceipt(List<ReceiptLineDto> inputs) {
@@ -36,19 +36,17 @@ public class ReceiptService {
         double totalTax = 0.0;
 
         List<ReceiptLine> lines = new ArrayList<>();
-        if (inputs != null && !inputs.isEmpty()) {
-            for( ReceiptLineDto lineDto : inputs) {
-                validateReceiptLine(lineDto);
-                double taxPriceUnit = calculateTaxePriceLine(lineDto);
-                double priceUnit =  lineDto.price() + taxPriceUnit;
+        for (ReceiptLineDto lineDto : inputs) {
+            validateReceiptLine(lineDto);
+            double taxPriceUnit = calculateTaxePriceLine(lineDto);
+            double priceUnit = lineDto.price() + taxPriceUnit;
 
-                totalPrice += priceUnit  * lineDto.quantity();
-                totalTax += taxPriceUnit * lineDto.quantity();
+            totalPrice += priceUnit * lineDto.quantity();
+            totalTax += taxPriceUnit * lineDto.quantity();
 
-                lines.add(buildLineReceipt(lineDto,priceUnit* lineDto.quantity()));
-            }
-
+            lines.add(buildLineReceipt(lineDto, priceUnit * lineDto.quantity()));
         }
+
         receipt.setLines(lines);
         receipt.setTotalTax(totalTax); // Round to 2 decimal places
         receipt.setTotalPrice(totalPrice);
@@ -56,10 +54,11 @@ public class ReceiptService {
         return receipt;
     }
 
-    private Receipt createEmptyReceipt() {
-        return new Receipt();
-    }
-
+    /**
+     * round 0,05 => ( rate * price )
+     * @param lineProduct
+     * @return
+     */
     private double calculateTaxePriceLine(ReceiptLineDto lineProduct) {
         return customRound(taxService.getTax(lineProduct.title()) * lineProduct.price());
     }
@@ -74,27 +73,28 @@ public class ReceiptService {
 
     /**
      * A line is valid if the price is >0 and the quantity also
+     *
      * @param input line of receipt
      * @throws IllegalArgumentException Bad elements
      */
     private void validateReceiptLine(ReceiptLineDto input) {
-        if (input.price() == null || input.price()<=0|| input.quantity() <= 0) {
+        if (input.price() == null || input.price() <= 0 || input.quantity() <= 0) {
             throw new IllegalArgumentException("Invalid price or quantity for line: " + input);
         }
-        if(!StringUtils.hasLength(input.title())){
+        if (!StringUtils.hasLength(input.title())) {
             throw new IllegalArgumentException("No title for : " + input);
         }
     }
 
     /**
      * round to the next 0,05
-     * @param value
+     *
+     * @param value to be rounded
      * @return rounded value
      */
     private double customRound(Double value) {
-        return Math.ceil( value * 20.0) / 20.0;
+        return Math.ceil(value * 20.0) / 20.0;
     }
-
 
 
 }
