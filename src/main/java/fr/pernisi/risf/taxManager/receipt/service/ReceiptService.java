@@ -8,6 +8,7 @@ import fr.pernisi.risf.taxmanager.receipt.model.ReceiptLine;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,14 +33,15 @@ public class ReceiptService {
 
         List<ReceiptLine> lines = new ArrayList<>();
         if (inputs != null && !inputs.isEmpty()) {
-            for( ReceiptLineDto lineProduct : inputs) {
-                validateReceiptLine(lineProduct);
-                double taxPrice = calculateTaxePriceLine(lineProduct);
-                double price = calculatePriceLine(lineProduct, taxPrice);
-                totalPrice += price;
-                totalTax += taxPrice * lineProduct.quantity();
+            for( ReceiptLineDto lineDto : inputs) {
+                validateReceiptLine(lineDto);
+                double taxPrice = calculateTaxePriceLine(lineDto);
+                double price = calculatePriceLine(lineDto, taxPrice);
 
-                lines.add(buildLineReceipt(lineProduct,price, taxPrice));
+                totalPrice += price;
+                totalTax += taxPrice * lineDto.quantity();
+
+                lines.add(buildLineReceipt(lineDto,price, taxPrice));
             }
 
         }
@@ -74,6 +76,9 @@ public class ReceiptService {
     private void validateReceiptLine(ReceiptLineDto input) {
         if (input.price() == null || input.price()<=0|| input.quantity() <= 0) {
             throw new IllegalArgumentException("Invalid price or quantity for line: " + input);
+        }
+        if(!StringUtils.hasLength(input.title())){
+            throw new IllegalArgumentException("No title for : " + input);
         }
     }
 
