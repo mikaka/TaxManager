@@ -17,7 +17,7 @@ import java.util.regex.Pattern;
 
 @Component
 @Log4j2
-public class TextsService {
+public class TextService {
 
 
     public List<ReceiptLineDto> parseInput(String input) {

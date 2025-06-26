@@ -2,7 +2,7 @@ package fr.pernisi.risf.taxmanager.taxmanager.unit;
 
 
 import fr.pernisi.risf.taxmanager.receipt.dto.ReceiptLineDto;
-import fr.pernisi.risf.taxmanager.receipt.service.TextsService;
+import fr.pernisi.risf.taxmanager.receipt.service.TextService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,17 +15,17 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 @ExtendWith(MockitoExtension.class)
-class TextsServiceTest {
+class TextServiceTest {
 
 
     @InjectMocks
-    private TextsService textsService;
+    private TextService textService;
 
     @DisplayName("Should parse a unit with one line")
     @Test
     void itSouldParseReceipt1Line() {
         String input ="1 book at 12.49";
-        List<ReceiptLineDto> receiptLineList = textsService.parseInput(input);
+        List<ReceiptLineDto> receiptLineList = textService.parseInput(input);
         assertEquals(1, receiptLineList.size());
         assertEquals("book", receiptLineList.get(0).title());
         assertEquals(12.49, receiptLineList.get(0).price());
@@ -40,7 +40,7 @@ class TextsServiceTest {
                 1 music CD at 14.99
                 1 chocolate bar at 0.85
                 """;
-        List<ReceiptLineDto> receiptLineList = textsService.parseInput(input);
+        List<ReceiptLineDto> receiptLineList = textService.parseInput(input);
         assertEquals(3, receiptLineList.size());
         assertEquals("book", receiptLineList.get(0).title());
         assertEquals(12.49, receiptLineList.get(0).price());
@@ -67,7 +67,7 @@ class TextsServiceTest {
     }
 
     private void itshouldreturnNoline(String input) {
-        List<ReceiptLineDto> receiptLineList = textsService.parseInput(input);
+        List<ReceiptLineDto> receiptLineList = textService.parseInput(input);
         assertEquals(0, receiptLineList.size());
     }
 

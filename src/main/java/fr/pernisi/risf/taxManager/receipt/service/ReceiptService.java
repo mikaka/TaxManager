@@ -39,12 +39,12 @@ public class ReceiptService {
         for (ReceiptLineDto lineDto : inputs) {
             validateReceiptLine(lineDto);
             double taxPriceUnit = calculateTaxePriceLine(lineDto);
-            double priceUnit = lineDto.price() + taxPriceUnit;
+            double totalQuantityLine = (lineDto.price() + taxPriceUnit) * lineDto.quantity();
+            double totalQuantityTaxeLine = taxPriceUnit * lineDto.quantity();
+            totalPrice += totalQuantityLine;
+            totalTax += totalQuantityTaxeLine;
 
-            totalPrice += priceUnit * lineDto.quantity();
-            totalTax += taxPriceUnit * lineDto.quantity();
-
-            lines.add(buildLineReceipt(lineDto, priceUnit * lineDto.quantity()));
+            lines.add(buildLineReceipt(lineDto, totalQuantityLine));
         }
 
         receipt.setLines(lines);
