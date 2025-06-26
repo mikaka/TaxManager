@@ -22,19 +22,19 @@ public class ReceiptController {
     private final TextsService textsService;
     private final ReceiptService receiptService;
 
+    /**
+     * Request for creating a new receipt from an text input
+     *
+     * @param input
+     * @return
+     */
     @PostMapping
     public String createReceipt(@RequestBody String input) {
-        log.info("create a unit for "+input);
+        log.info("create a unit for " + input);
         List<ReceiptLineDto> receiptLineList = textsService.parseInput(input);
         Receipt receipt = receiptService.createReceipt(receiptLineList);
 
         return textsService.formatReceipt(receipt);
     }
 
-
-    @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException ex) {
-        return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE)
-                .body("Mauvais format de message d'entrée: " + ex.getMessage());
-    }
 }

@@ -24,7 +24,7 @@ class TextsServiceTest {
     @DisplayName("Should parse a unit with one line")
     @Test
     void itSouldParseReceipt1Line() {
-        String input ="1 book at 12.49";
+        String input = "1 book at 12.49";
         List<ReceiptLineDto> receiptLineList = textsService.parseInput(input);
         assertEquals(1, receiptLineList.size());
         assertEquals("book", receiptLineList.get(0).title());

@@ -46,14 +46,13 @@ class ReceiptServiceTest {
         receiptLineList.add(new ReceiptLineDto("chocolate bar", 0.85, 1));
 
 
-
     }
 
 
     @DisplayName("Should parse a unit empty")
     @Test
     void itSouldThowIfNoLineReceipt() {
-       assertThrows(IllegalArgumentException.class, ()-> receiptService.createReceipt(Collections.emptyList()));
+        assertThrows(IllegalArgumentException.class, () -> receiptService.createReceipt(Collections.emptyList()));
     }
 
     @DisplayName("Should parse a unit full with no imported products")
@@ -81,7 +80,7 @@ class ReceiptServiceTest {
         assertEquals("0,85", nf.format(receipt.getLines().get(2).getPrice()));
 
         assertEquals("29,83", nf.format(receipt.getTotalPrice()));
-        assertEquals("1,50" , nf.format(receipt.getTotalTax()));
+        assertEquals("1,50", nf.format(receipt.getTotalTax()));
 
     }
 
@@ -113,7 +112,7 @@ class ReceiptServiceTest {
 
 
         assertEquals("65,15", nf.format(receipt.getTotalPrice()));
-        assertEquals("7,65" , nf.format(receipt.getTotalTax()));
+        assertEquals("7,65", nf.format(receipt.getTotalTax()));
 
     }
 
@@ -155,7 +154,7 @@ class ReceiptServiceTest {
 
 
         assertEquals("6,70", nf.format(receipt.getTotalTax()));
-        assertEquals("74,68" , nf.format(receipt.getTotalPrice()));
+        assertEquals("74,68", nf.format(receipt.getTotalPrice()));
 
     }
 
@@ -164,9 +163,9 @@ class ReceiptServiceTest {
     void itSouldThrowIfBadEinformation() {
         List<ReceiptLineDto> importedReceiptLineList = new ArrayList<>();
         importedReceiptLineList.add(new ReceiptLineDto("imported box of chocolates", 10.00, -3));
-        assertThrows(IllegalArgumentException.class, () ->  receiptService.createReceipt(importedReceiptLineList));
+        assertThrows(IllegalArgumentException.class, () -> receiptService.createReceipt(importedReceiptLineList));
 
-        assertThrows(IllegalArgumentException.class, () ->  receiptService.createReceipt(
+        assertThrows(IllegalArgumentException.class, () -> receiptService.createReceipt(
                 List.of(new ReceiptLineDto("imported box of chocolates", -10.00, 1))));
     }
 
@@ -174,7 +173,7 @@ class ReceiptServiceTest {
     @Test
     void itSouldThrowIfBadEinformation2() {
 
-        assertThrows(IllegalArgumentException.class, () ->  receiptService.createReceipt(
+        assertThrows(IllegalArgumentException.class, () -> receiptService.createReceipt(
                 List.of(new ReceiptLineDto("imported box of chocolates", -10.00, 1))));
     }
 
@@ -182,7 +181,7 @@ class ReceiptServiceTest {
     @Test
     void itSouldThrowIfBadEinformation3() {
 
-        assertThrows(IllegalArgumentException.class, () ->  receiptService.createReceipt(
+        assertThrows(IllegalArgumentException.class, () -> receiptService.createReceipt(
                 List.of(new ReceiptLineDto("", 10.00, 1))));
     }
 }

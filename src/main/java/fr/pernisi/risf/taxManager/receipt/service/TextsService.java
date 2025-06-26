@@ -19,11 +19,17 @@ import java.util.regex.Pattern;
 @Log4j2
 public class TextsService {
 
-
+    /**
+     * Parse input
+     *
+     * @param input
+     * @return List of ReceiptLineDto formated Object from parsing
+     * @throws IllegalArgumentException in case of bad format
+     */
     public List<ReceiptLineDto> parseInput(String input) {
-        log.debug("parse input :"+input);
+        log.debug("parse input :" + input);
         List<ReceiptLineDto> lines = new ArrayList<>();
-        if(StringUtils.hasLength(input)){
+        if (StringUtils.hasLength(input)) {
             Pattern pattern = Pattern.compile("^.*$", Pattern.MULTILINE);
             Matcher matcher = pattern.matcher(input);
 
@@ -31,10 +37,16 @@ public class TextsService {
                 parseLine(matcher.group(), lines);
             }
         }
-        log.debug("Number of generated lines :"+lines.size());
+        log.debug("Number of generated lines :" + lines.size());
         return lines;
     }
 
+    /**
+     * parse a line
+     *
+     * @param input
+     * @param lines
+     */
     private void parseLine(String input, List<ReceiptLineDto> lines) {
         String regex = "(\\d+)\\s+(.+?)\\s+at\\s+(\\d+\\.\\d{2})";
         Pattern pattern = Pattern.compile(regex);
@@ -50,15 +62,21 @@ public class TextsService {
         }
     }
 
+    /**
+     * format answer into an understable text
+     *
+     * @param receipt
+     * @return
+     */
     public String formatReceipt(Receipt receipt) {
         //
-        DecimalFormatSymbols decimalFormatSymbols=DecimalFormatSymbols.getInstance();
+        DecimalFormatSymbols decimalFormatSymbols = DecimalFormatSymbols.getInstance();
         decimalFormatSymbols.setDecimalSeparator('.');
         DecimalFormat df = new DecimalFormat("0.00", decimalFormatSymbols);
 
 
         StringBuilder sb = new StringBuilder();
-        for(ReceiptLine line : receipt.getLines()){
+        for (ReceiptLine line : receipt.getLines()) {
             sb.append(line.getQuantity());
             sb.append(" ");
             sb.append(line.getTitle());

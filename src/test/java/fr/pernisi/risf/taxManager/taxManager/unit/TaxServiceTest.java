@@ -51,7 +51,7 @@ class TaxServiceTest {
     @Test
     @DisplayName("Should throw  if no title")
     void shouldThrowIfNoTitle() {
-        assertThrows(IllegalArgumentException.class, ()-> taxService.getTax("") );
+        assertThrows(IllegalArgumentException.class, () -> taxService.getTax(""));
 
     }
 }

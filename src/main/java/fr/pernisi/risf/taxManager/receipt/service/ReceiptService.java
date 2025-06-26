@@ -12,6 +12,7 @@ import org.springframework.util.StringUtils;
 import java.util.ArrayList;
 import java.util.List;
 
+
 @Component
 @RequiredArgsConstructor
 @Log4j2
@@ -20,7 +21,7 @@ public class ReceiptService {
     private final TaxService taxService;
 
     /**
-     * Create a receipt object ( could be transformed into an entity, in the next evolution)
+     * Create a receipt object (could be transformed into an entity, in the next evolution)
      *
      * @param inputs datas from parser
      * @return Receipt object
@@ -55,7 +56,8 @@ public class ReceiptService {
     }
 
     /**
-     * round 0,05 => ( rate * price )
+     * round 0,05 => (rate * price )
+     *
      * @param lineProduct
      * @return
      */
@@ -63,6 +65,13 @@ public class ReceiptService {
         return customRound(taxService.getTax(lineProduct.title()) * lineProduct.price());
     }
 
+    /**
+     * Create an Object ReceiptLine representing the final line Receipt
+     *
+     * @param line  data Line from parsing
+     * @param price article price
+     * @return Object ReceiptLine
+     */
     private ReceiptLine buildLineReceipt(ReceiptLineDto line, double price) {
         var calculedLine = new ReceiptLine();
         calculedLine.setTitle(line.title());
