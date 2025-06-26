@@ -3,6 +3,7 @@ package fr.pernisi.risf.taxmanager.receipt.service;
 
 import fr.pernisi.risf.taxmanager.receipt.model.Receipt;
 import fr.pernisi.risf.taxmanager.receipt.model.ReceiptLine;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -14,6 +15,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Service
+@Log4j2
 public class ParserService {
 
 

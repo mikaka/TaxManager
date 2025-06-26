@@ -1,4 +1,4 @@
-package fr.pernisi.risf.taxmanager.taxmanager.receipt;
+package fr.pernisi.risf.taxmanager.taxmanager.unit;
 
 
 
@@ -22,7 +22,7 @@ class ParserServiceTest {
     @InjectMocks
     private ParserService parserService;
 
-    @DisplayName("Should parse a receipt with one line")
+    @DisplayName("Should parse a unit with one line")
     @Test
     void itSouldParseReceipt1Line() {
         String input ="1 book at 12.49";
@@ -33,7 +33,7 @@ class ParserServiceTest {
         assertEquals(1, receiptLineList.get(0).getQuantity());
     }
 
-    @DisplayName("Should parse a receipt with several line")
+    @DisplayName("Should parse a unit with several line")
     @Test
     void itSouldParseReceipt3Line() {
         String input = """
@@ -56,7 +56,7 @@ class ParserServiceTest {
         assertEquals(1, receiptLineList.get(2).getQuantity());
     }
 
-    @DisplayName("Should parse a receipt with no line")
+    @DisplayName("Should parse a unit with no line")
     @Test
     void itSouldParseReceiptNoLine() {
 

@@ -18,14 +18,17 @@ public class ReceiptService {
 
     public Receipt createReceipt(List<ReceiptLine> inputs) {
 
-        validateReceiptLines(inputs);
+
         var receipt = new Receipt();
-        Double totalPrice = 0.0;
-        Double totalTax = 0.0;
+        double totalPrice = 0.0;
+        double totalTax = 0.0;
 
         List<ReceiptLine> lines = new ArrayList<>();
         if (inputs != null && !inputs.isEmpty()) {
             for( ReceiptLine input : inputs) {
+
+                validateReceiptLine(input);
+
                 Double taxPrice = customRound(taxService.getTax(input.getTitle(), input.getPrice()));
                 Double price = (input.getPrice()+taxPrice) * input.getQuantity();
                 totalPrice += price;
@@ -46,21 +49,21 @@ public class ReceiptService {
         return receipt;
     }
 
+    /**
+     * A line is valid if the price is >0 and the quantity also
+     * @param input line of receipt
+     * @throws IllegalArgumentException Bad elements
+     */
+    private void validateReceiptLine(ReceiptLine input) {
+        if (input.getPrice() == null || input.getPrice() != null && input.getPrice()<=0|| input.getQuantity() <= 0) {
+            throw new IllegalArgumentException("Invalid price or quantity for line: " + input);
+        }
+    }
+
     private double customRound(Double value) {
         return Math.ceil( value * 20.0) / 20.0;
     }
 
 
-    public void validateReceiptLines(List<ReceiptLine> receiptLineList) {
-        if (receiptLineList != null && !receiptLineList.isEmpty()) {
-            receiptLineList.forEach( line -> {
-                if (line.getPrice() == null && line.getPrice()>=0|| line.getQuantity() <= 0) {
-                    throw new IllegalArgumentException("Invalid price or quantity for line: " + line);
-                }
-            });
-
-
-        }
-    }
 
 }

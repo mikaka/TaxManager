@@ -1,4 +1,4 @@
-package fr.pernisi.risf.taxmanager.taxmanager.receipt;
+package fr.pernisi.risf.taxmanager.taxmanager.unit;
 
 
 import fr.pernisi.risf.taxmanager.receipt.model.Receipt;
@@ -20,6 +20,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
 
@@ -33,7 +34,7 @@ class ReceiptServiceTest {
     private ReceiptService receiptService;
 
     List<ReceiptLine> receiptLineList;
-    List<ReceiptLine> importedReceiptLineList;
+
 
     @BeforeEach
     void setUp() {
@@ -44,15 +45,12 @@ class ReceiptServiceTest {
         receiptLineList.add(new ReceiptLine("music CD", 14.99, 1));
         receiptLineList.add(new ReceiptLine("chocolate bar", 0.85, 1));
 
-        importedReceiptLineList = new ArrayList<>();
-        importedReceiptLineList.add(new ReceiptLine("imported box of chocolates", 10.00, 1));
-        importedReceiptLineList.add(new ReceiptLine("imported bottle of perfume", 47.50, 1));
 
 
     }
 
 
-    @DisplayName("Should parse a receipt empty")
+    @DisplayName("Should parse a unit empty")
     @Test
     void itSouldCreateNoLineReceipt() {
 
@@ -63,7 +61,7 @@ class ReceiptServiceTest {
 
     }
 
-    @DisplayName("Should parse a receipt full with no imported products")
+    @DisplayName("Should parse a unit full with no imported products")
     @Test
     void itSouldCreate3LineReceipt() {
 
@@ -92,9 +90,14 @@ class ReceiptServiceTest {
 
     }
 
-    @DisplayName("Should parse a receipt full with  imported products")
+    @DisplayName("Should parse a unit full with  imported products")
     @Test
     void itSouldCreateimportedLineReceipt() {
+
+        List<ReceiptLine> importedReceiptLineList = new ArrayList<>();
+        importedReceiptLineList.add(new ReceiptLine("imported box of chocolates", 10.00, 1));
+        importedReceiptLineList.add(new ReceiptLine("imported bottle of perfume", 47.50, 1));
+
 
         when(taxService.getTax("imported box of chocolates", 10.00)).thenReturn(0.50);
         when(taxService.getTax("imported bottle of perfume", 47.50)).thenReturn(7.15);
@@ -159,6 +162,17 @@ class ReceiptServiceTest {
         assertEquals("6,70", nf.format(receipt.getTotalTax()));
         assertEquals("74,68" , nf.format(receipt.getTotalPrice()));
 
+    }
+
+    @DisplayName("Should throw if bad information")
+    @Test
+    void itSouldThrowIfBadEinformation() {
+        List<ReceiptLine> importedReceiptLineList = new ArrayList<>();
+        importedReceiptLineList.add(new ReceiptLine("imported box of chocolates", 10.00, -3));
+        assertThrows(IllegalArgumentException.class, () ->  receiptService.createReceipt(importedReceiptLineList));
+
+        assertThrows(IllegalArgumentException.class, () ->  receiptService.createReceipt(
+                List.of(new ReceiptLine("imported box of chocolates", -10.00, 1))));
     }
 
 }

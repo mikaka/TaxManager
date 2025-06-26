@@ -2,6 +2,7 @@ package fr.pernisi.risf.taxmanager.taxmanager.functional;
 
 
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -20,6 +21,7 @@ class ReceiptControllerFunctionalTest {
     @Autowired
     private MockMvc mockMvc;
 
+    @DisplayName("it should return a unit with the right input")
     @Test
     void shouldReturnExpectedReceipt() throws Exception {
         String input = "1 book at 12.49\n1 music CD at 14.99\n1 chocolate bar at 0.85";
@@ -51,6 +53,24 @@ class ReceiptControllerFunctionalTest {
                         .content(input2))
                 .andExpect(status().isOk())
                 .andExpect(content().string(expectedOutput2.trim()));
+    }
+
+
+    @DisplayName("it should return a message with a wrong format")
+    @Test
+    void shouldReturnAnMessageIfWrongFormat() throws Exception {
+        String input = """
+        1 thing at shool,
+        I know, it'funny because it's just a test
+        """;
+        String expectedOutput = "Mauvais format de message d'entrée: Format invalide : 1 thing at shool,";
+
+        mockMvc.perform(post("/receipts")
+                        .contentType(MediaType.TEXT_PLAIN)
+                        .content(input))
+                .andExpect(status().is4xxClientError())
+                .andExpect(content().string(expectedOutput));
+
     }
 
 

@@ -1,4 +1,4 @@
-package fr.pernisi.risf.taxmanager.taxmanager.receipt;
+package fr.pernisi.risf.taxmanager.taxmanager.unit;
 
 import fr.pernisi.risf.taxmanager.receipt.service.TaxService;
 import org.junit.jupiter.api.DisplayName;

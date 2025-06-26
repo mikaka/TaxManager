@@ -3,19 +3,20 @@ package fr.pernisi.risf.taxmanager.receipt.controller;
 
 import fr.pernisi.risf.taxmanager.receipt.model.Receipt;
 import fr.pernisi.risf.taxmanager.receipt.model.ReceiptLine;
-import fr.pernisi.risf.taxmanager.receipt.service.ReceiptService;
 import fr.pernisi.risf.taxmanager.receipt.service.ParserService;
+import fr.pernisi.risf.taxmanager.receipt.service.ReceiptService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import lombok.extern.log4j.Log4j2;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/receipts")
+@Log4j2
 public class ReceiptController {
 
     private final ParserService parserService;
@@ -23,10 +24,17 @@ public class ReceiptController {
 
     @PostMapping
     public String createReceipt(@RequestBody String input) {
-
+        log.info("create a unit for "+input);
         List<ReceiptLine> receiptLineList = parserService.parseInput(input);
         Receipt receipt = receiptService.createReceipt(receiptLineList);
 
         return parserService.formatReceipt(receipt);
+    }
+
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE)
+                .body("Mauvais format de message d'entrée: " + ex.getMessage());
     }
 }
