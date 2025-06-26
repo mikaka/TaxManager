@@ -47,4 +47,11 @@ class TaxServiceTest {
         tax = taxService.getTax("imported box of chocolates", 11.25);
         assertEquals(0.5625, tax, 0.001);
     }
+
+    @Test
+    @DisplayName("Should throw  if no title")
+    void shouldThrowIfNoTitle() {
+        assertThrows(IllegalArgumentException.class, ()->taxService.getTax("", 11.25) );
+
+    }
 }

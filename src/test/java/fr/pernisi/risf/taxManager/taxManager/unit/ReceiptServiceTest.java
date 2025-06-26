@@ -175,4 +175,19 @@ class ReceiptServiceTest {
                 List.of(new ReceiptLineDto("imported box of chocolates", -10.00, 1))));
     }
 
+    @DisplayName("Should throw if bad information 2")
+    @Test
+    void itSouldThrowIfBadEinformation2() {
+
+        assertThrows(IllegalArgumentException.class, () ->  receiptService.createReceipt(
+                List.of(new ReceiptLineDto("imported box of chocolates", -10.00, 1))));
+    }
+
+    @DisplayName("Should throw if bad information 3")
+    @Test
+    void itSouldThrowIfBadEinformation3() {
+
+        assertThrows(IllegalArgumentException.class, () ->  receiptService.createReceipt(
+                List.of(new ReceiptLineDto("", 10.00, 1))));
+    }
 }
