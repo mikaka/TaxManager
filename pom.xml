@@ -12,7 +12,7 @@
 	<artifactId>taxManager</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>taxManager</name>
-	<description>Demo for risf</description>
+	<description>Demo for itsf</description>
 	<properties>
 		<java.version>17</java.version>
 	</properties>
