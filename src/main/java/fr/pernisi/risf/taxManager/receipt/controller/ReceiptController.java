@@ -3,13 +3,14 @@ package fr.pernisi.risf.taxmanager.receipt.controller;
 
 import fr.pernisi.risf.taxmanager.receipt.dto.ReceiptLineDto;
 import fr.pernisi.risf.taxmanager.receipt.model.Receipt;
-import fr.pernisi.risf.taxmanager.receipt.service.TextsService;
 import fr.pernisi.risf.taxmanager.receipt.service.ReceiptService;
+import fr.pernisi.risf.taxmanager.receipt.service.TextsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 

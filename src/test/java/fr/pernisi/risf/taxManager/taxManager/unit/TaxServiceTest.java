@@ -1,19 +1,20 @@
 package fr.pernisi.risf.taxmanager.taxmanager.unit;
 
-import fr.pernisi.risf.taxmanager.receipt.service.TaxService;
+import fr.pernisi.risf.taxmanager.receipt.service.impl.TaxServiceImpl;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @ExtendWith(MockitoExtension.class)
 class TaxServiceTest {
 
     @InjectMocks
-    private TaxService taxService;
+    private TaxServiceImpl taxService;
 
     @Test
     @DisplayName("Should return zero tax for tax-exempt product")

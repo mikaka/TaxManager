@@ -3,7 +3,7 @@ package fr.pernisi.risf.taxmanager.taxmanager.unit;
 
 import fr.pernisi.risf.taxmanager.receipt.dto.ReceiptLineDto;
 import fr.pernisi.risf.taxmanager.receipt.model.Receipt;
-import fr.pernisi.risf.taxmanager.receipt.service.ReceiptService;
+import fr.pernisi.risf.taxmanager.receipt.service.impl.ReceiptServiceImpl;
 import fr.pernisi.risf.taxmanager.receipt.service.TaxService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -31,7 +31,7 @@ class ReceiptServiceTest {
     TaxService taxService;
 
     @InjectMocks
-    private ReceiptService receiptService;
+    private ReceiptServiceImpl receiptService;
 
     List<ReceiptLineDto> receiptLineList;
 
@@ -164,7 +164,11 @@ class ReceiptServiceTest {
         List<ReceiptLineDto> importedReceiptLineList = new ArrayList<>();
         importedReceiptLineList.add(new ReceiptLineDto("imported box of chocolates", 10.00, -3));
         assertThrows(IllegalArgumentException.class, () -> receiptService.createReceipt(importedReceiptLineList));
+    }
 
+    @DisplayName("Should throw if bad information")
+        @Test
+        void itSouldThrowIfBadPriceInformation() {
         assertThrows(IllegalArgumentException.class, () -> receiptService.createReceipt(
                 List.of(new ReceiptLineDto("imported box of chocolates", -10.00, 1))));
     }

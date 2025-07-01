@@ -12,4 +12,9 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException ex) {
         return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("Mauvais format de message d'entrée: " + ex.getMessage());
     }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<String> handleException(Exception ex) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erreur Interne : " + ex.getMessage());
+    }
 }

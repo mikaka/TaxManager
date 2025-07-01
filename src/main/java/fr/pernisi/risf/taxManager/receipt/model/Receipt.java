@@ -7,7 +7,7 @@ import java.util.List;
 @Data
 public class Receipt {
 
-    List<ReceiptLine> lines;
-    Double totalPrice;
-    Double totalTax;
+    private List<ReceiptLine> lines;
+    private Double totalPrice;
+    private Double totalTax;
 }
