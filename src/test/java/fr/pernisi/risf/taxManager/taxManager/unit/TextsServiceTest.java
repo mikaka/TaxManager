@@ -2,7 +2,7 @@ package fr.pernisi.risf.taxmanager.taxmanager.unit;
 
 
 import fr.pernisi.risf.taxmanager.receipt.dto.ReceiptLineDto;
-import fr.pernisi.risf.taxmanager.receipt.service.TextsService;
+import fr.pernisi.risf.taxmanager.receipt.service.impl.TextsServiceImpl;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,7 +19,7 @@ class TextsServiceTest {
 
 
     @InjectMocks
-    private TextsService textsService;
+    private TextsServiceImpl textsService;
 
     @DisplayName("Should parse a unit with one line")
     @Test
