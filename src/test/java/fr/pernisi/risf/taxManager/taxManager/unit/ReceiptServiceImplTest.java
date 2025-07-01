@@ -166,24 +166,17 @@ class ReceiptServiceTest {
         assertThrows(IllegalArgumentException.class, () -> receiptService.createReceipt(importedReceiptLineList));
     }
 
-    @DisplayName("Should throw if bad information")
-        @Test
-        void itSouldThrowIfBadPriceInformation() {
-        assertThrows(IllegalArgumentException.class, () -> receiptService.createReceipt(
-                List.of(new ReceiptLineDto("imported box of chocolates", -10.00, 1))));
-    }
-
-    @DisplayName("Should throw if bad information 2")
+    @DisplayName("Should throw if bad information price ")
     @Test
-    void itSouldThrowIfBadEinformation2() {
+    void itSouldThrowIfBadInformationPrice() {
 
         assertThrows(IllegalArgumentException.class, () -> receiptService.createReceipt(
                 List.of(new ReceiptLineDto("imported box of chocolates", -10.00, 1))));
     }
 
-    @DisplayName("Should throw if bad information 3")
+    @DisplayName("Should throw if bad information title")
     @Test
-    void itSouldThrowIfBadEinformation3() {
+    void itSouldThrowIfBadinformationTitle() {
 
         assertThrows(IllegalArgumentException.class, () -> receiptService.createReceipt(
                 List.of(new ReceiptLineDto("", 10.00, 1))));
